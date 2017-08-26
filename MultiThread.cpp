@@ -6,6 +6,7 @@
 #include <windows.h>
 #include <process.h>
 #include<iostream>
+
 using namespace std;
 
 const int Numbers = 10;
