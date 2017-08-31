@@ -2,6 +2,7 @@
 #include<stdlib.h>
 #include<stack>
 #include<vector>
+#include<queue>
 
 #define null 999
 
@@ -67,7 +68,34 @@ void TreePreOrderNoRecur(TreeNode* root)
         }
     }
 }
-
+void breadthFirstSearch(TreeNode* root)
+{
+    queue<pair<TreeNode *,int>> nodeQueue;  //使用C++的STL标准模板库
+    pair<TreeNode *,int> node;
+    pair<TreeNode *,int> temp;
+    node.first = root;
+    node.second = 1;
+    nodeQueue.push(node);
+    while(!nodeQueue.empty())
+    {
+        node = nodeQueue.front();
+        nodeQueue.pop();
+        cout<<node.first->val;
+        cout<<":位于第"<<node.second<<"层"<<endl;
+        if(node.first->left)
+        {
+            temp.first = node.first->left;
+            temp.second = (node.second) + 1;
+            nodeQueue.push(temp);  //先将左子树入队
+        }
+        if(node.first->right)
+        {
+            temp.first = node.first->right;
+            temp.second = (node.second) + 1;
+            nodeQueue.push(temp);  //再将右子树入队
+        }
+    }
+}
 bool FindSubOfTree(TreeNode* pRoot1,TreeNode* pRoot2)
 {
     if(pRoot1==NULL)
@@ -155,9 +183,11 @@ vector<TreeNode*> CreateFromArrayToTree(vector<int> &arrays)
 int main()
 {
 
-    vector<int> V={1,-2,-3,1,3,-2,null,-1};
+    vector<int> V={1,2,3,4,5,6,7,8};
     vector<TreeNode*> test=CreateFromArrayToTree(V);
-    cout<<TreeDepth(test[0])<<endl;
+    TreeNode* root = test[0];
+    breadthFirstSearch(root);
+    //cout<<TreeDepth(test[0])<<endl;
     //cout<<hasPathSum(test[0],3)<<endl;
     return 0;
 }
