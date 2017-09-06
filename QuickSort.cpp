@@ -1,5 +1,7 @@
 #include<iostream>
 #include<vector>
+#include <time.h>
+#include<stdlib.h>
 
 using namespace std;
 
@@ -35,7 +37,18 @@ void QuickSort(vector<int> &nums,int start,int end)
 }
 int main()
 {
-    vector<int> nums={9,5,4,1,7,6,3,2,8};
+    vector<int> nums;
+    int rem;
+    int num;
+    srand((unsigned)time(NULL));
+    for(int i=0;i<=200000;i++)
+    {
+        num=rand()%3000+1;
+        rem=i;
+        nums.push_back(num);
+    }
+    //vector<int> nums={9,5,4,1,7,6,3,2,8};
+
     QuickSort(nums,0,nums.size()-1);
     for(auto c:nums)
         cout<<c<<endl;
