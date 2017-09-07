@@ -3,10 +3,74 @@
 #include<assert.h>
 #include<stdlib.h>
 #include<sstream>
+#include<string.h>
+#include<stdio.h>
 
 using namespace std;
 
-char* stringcopy(char *strdest,const char *strsrc)
+/***************************************************
+编写string类的构造方法，析构函数和赋值函数
+***************************************************/
+class NewString
+{
+public:
+    NewString(const char *str = NULL);  //普通构造函数
+    NewString(const NewString &other);      //拷贝构造函数
+    ~NewString(void);                  //析构函数
+    NewString & operator =(const NewString &other);
+private:
+    char *m_data;
+};
+//普通构造函数
+NewString::NewString(const char *str)
+{
+    if(str == NULL)
+    {
+        m_data = new char[1];
+        *m_data = '\0';
+    }
+    else
+    {
+        int length = strlen(str);
+        m_data = new char[length+1];
+        strcpy(m_data,str);
+    }
+}
+//拷贝构造函数
+NewString::NewString(const NewString &other)
+{
+    int length = strlen(other.m_data);
+    m_data = new char[length+1];
+    strcpy(m_data, other.m_data);
+}
+//析构函数
+NewString::~NewString(void)
+{
+    delete[] m_data;
+}
+
+
+
+//赋值函数
+NewString & NewString::operator=(const NewString &other)
+{
+    if(this == &other)    //检查自赋值,this是指针，故比较对象为&other
+        return *this;
+    delete[] m_data;    //释放原有的内存资源
+    int length = strlen(other.m_data);
+    m_data = new char[length+1];
+    strcpy(m_data, other.m_data);
+    return *this;
+}
+//NewString类的测试函数
+void TestNewString(void)
+{
+    NewString S1 = "abcdefg";
+    NewString S2(S1);
+    NewString *S3 =new NewString(S2);
+}
+
+char* stringcopy(char *strdest, const char *strsrc)
 {
     assert((strdest!=NULL&&strsrc!=NULL));
     char* s = strdest;
@@ -14,6 +78,8 @@ char* stringcopy(char *strdest,const char *strsrc)
         NULL;
     return s;
 }
+
+
 int main()
 {
     string s = "qwe,def,dfg";
