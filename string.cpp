@@ -6,7 +6,7 @@
 
 using namespace std;
 
-char* stringcopy(char *strdest,char *strsrc)
+char* stringcopy(char *strdest,const char *strsrc)
 {
     assert((strdest!=NULL&&strsrc!=NULL));
     char* s = strdest;
